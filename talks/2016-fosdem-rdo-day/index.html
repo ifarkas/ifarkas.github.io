@@ -1686,13 +1686,12 @@ animation:         icon-animation-short 3.5s 1.5s 1;
 	<ol>
 		<li>power</li>
 		<li>deploy</li>
+		<li>management</li>
 	</ol>
 	</li>
 	<li>Standard interfaces
 	<ol>
-		<li>management</li>
 		<li>console</li>
-		<li>boot</li>
 		<li>inspect</li>
 		<li>raid</li>
 	</ol>
@@ -1733,7 +1732,60 @@ class IPMIPower(base.PowerInterface):
         ...
 
     def reboot(self, task, node):
-        ...</code></pre></div></div></section><section class="has-light-background" data-background-color="#fafafa" data-background-image="deck/1748213-drawing2.svg">
+        ...</code></pre></div></div></section><section data-background-image="deck/1748213-drawing2.svg" data-background-color="#fafafa" class="has-light-background">
+<div data-block-id="1e7c58dd8f8cd78742c6eb2b802a7404" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div dir="ui" class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Ironic</h1>
+
+<h2>Deployment workflow</h2>
+
+<h3> </h3>
+
+<ol>
+	<li>Ironic
+	<ol>
+		<li>fetches deploy ramdisk and overcloud image</li>
+		<li>prepares PXE environment, updates Neutron</li>
+		<li>set boot device and reboots the node</li>
+	</ol>
+	</li>
+	<li>Node
+	<ol>
+		<li>Loads deploy ramdisk + kernel</li>
+		<li>Expose the local disk to ironic via iSCSI</li>
+	</ol>
+	</li>
+	<li>Ironic
+	<ol>
+		<li>Writes the overcloud image to disk and changes PXE environment</li>
+		<li>reboots the node</li>
+	</ol>
+	</li>
+</ol>
+</div></div>
+</section><section data-background-image="deck/1748213-drawing2.svg" data-background-color="#fafafa" class="has-light-background">
+<div data-block-id="1e7c58dd8f8cd78742c6eb2b802a7404" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div dir="ui" class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>ironic-python-agent</h1>
+
+<h2>Ramdisk on steriods</h2>
+
+<h3> </h3>
+
+<ol>
+	<li>In-band vs out-of-band</li>
+	<li>Features
+	<ul>
+		<li>Erase disks</li>
+		<li>Partition disks</li>
+		<li>Install bootloaders</li>
+		<li>Install an OS image</li>
+		<li>Update firmware</li>
+		<li>Configure RAID</li>
+		<li>and more...</li>
+	</ul>
+	</li>
+</ol>
+</div></div>
+</section><section class="has-light-background" data-background-color="#fafafa" data-background-image="deck/1748213-drawing2.svg">
 <div data-block-id="433ef5c72c6ea790dd3b412e21ce49a4" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div dir="ui" class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
 <h1>Ironic-inspector</h1>
 
@@ -1765,6 +1817,19 @@ class IPMIPower(base.PowerInterface):
 	<li>Introspection rules</li>
 </ul>
 </div></div></section><section data-background-image="deck/1748213-drawing2.svg" data-background-color="#fafafa" class="has-light-background">
+<div data-block-id="04d4d031ac0ac617aee47aab4e205078" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Introspection rules</h1>
+
+<h2> </h2>
+
+<h3>Profiles</h3>
+
+<ul>
+	<li>Compute</li>
+	<li>Controller</li>
+	<li>Storage</li>
+</ul>
+</div></div></section><section data-background-image="deck/1748213-drawing2.svg" data-background-color="#fafafa" class="has-light-background">
 <div data-block-id="4d1d3e609b33924a8909b29fdb73c9ba" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div dir="ui" class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
 <h1>Ironic-inspector</h1>
 
@@ -1782,9 +1847,37 @@ class IPMIPower(base.PowerInterface):
 	</ul>
 	</li>
 	<li>Dnsmasq service</li>
-	<li>Discovery ramdisk/agent</li>
+	<li>Inspector ramdisk/agent</li>
 </ul>
-</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-background-image="deck/1748213-drawing2.svg">
+</div></div></section><section data-background-image="deck/1748213-drawing2.svg" data-background-color="#fafafa" class="has-light-background">
+<div data-block-id="58147877ec4e7fbaba37b89bb89e2d47" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div dir="ui" class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Ironic-Inspector</h1>
+
+<h2>Node Introspection</h2>
+
+<h3> </h3>
+
+<ol>
+	<li>ironic-inspector receives introspection request
+	<ol>
+		<li>validates node</li>
+		<li>prepares PXE environment</li>
+		<li>reboots the node</li>
+	</ol>
+	</li>
+	<li>
+	<p>ramdisk collects hardware properties and posts back to ironic-inspector, which</p>
+
+	<ol>
+		<li>validates received data</li>
+		<li>compares received data to ironic</li>
+		<li>updates ports</li>
+		<li>updates state ready for deployment</li>
+	</ol>
+	</li>
+</ol>
+</div></div>
+</section><section class="has-light-background" data-background-color="#fafafa" data-background-image="deck/1748213-drawing2.svg">
 <div data-block-id="8151991222299f24088b802747d34582" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
 <h1>Deployment workflow</h1>
 
@@ -1913,25 +2006,6 @@ class IPMIPower(base.PowerInterface):
 
 <p> </p>
 
-<ol>
-	<li>ironic-inspector receives introspection request
-	<ol>
-		<li>validates node</li>
-		<li>prepares PXE environment</li>
-		<li>reboots the node</li>
-	</ol>
-	</li>
-	<li>
-	<p>ramdisk collects hardware properties and posts back to ironic-inspector, which</p>
-
-	<ol>
-		<li>validates received data</li>
-		<li>compares received data to ironic</li>
-		<li>updates ports</li>
-		<li>updates state ready for deployment</li>
-	</ol>
-	</li>
-</ol>
 </div></div>
 <div data-block-id="77c4579ac64569f883a6bb285cc7ec3b" style="width: 874px; height: 32px; left: 45px; top: 240px;" data-block-type="code" class="sl-block"><div style="z-index: 12;" class="sl-block-content"><pre><code>$ openstack baremetal introspection bulk start</code></pre></div></div></section><section data-background-image="deck/1748213-drawing2.svg" data-background-color="#fafafa" class="has-light-background">
 <div data-block-id="26bc65e15065f85bf2e451eefa1967ca" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div dir="ui" class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 10; text-align: left;">
@@ -1947,33 +2021,12 @@ class IPMIPower(base.PowerInterface):
 <div data-block-id="1e7c58dd8f8cd78742c6eb2b802a7404" class="sl-block" data-block-type="text" style="height: auto; width: 915px; left: 45px; top: 70px;"><div dir="ui" class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
 <h1>Deployment workflow</h1>
 
-<h2>Deploy the clouD (Ironic)</h2>
+<h2>Deploy the cloud (Ironic)</h2>
 
 <h3> </h3>
 
 <p> </p>
 
-<ol>
-	<li>Ironic
-	<ol>
-		<li>fetches deploy ramdisk and overcloud image</li>
-		<li>prepares PXE environment, updates Neutron</li>
-		<li>set boot device and reboots the node</li>
-	</ol>
-	</li>
-	<li>Node
-	<ol>
-		<li>Loads deploy ramdisk + kernel</li>
-		<li>Expose the local disk to ironic via iSCSI</li>
-	</ol>
-	</li>
-	<li>Ironic
-	<ol>
-		<li>Writes the overcloud image to disk and changes PXE environment</li>
-		<li>reboots the node</li>
-	</ol>
-	</li>
-</ol>
 </div></div>
 <div data-block-id="1259847f8af256aeb081417475316b1a" style="width: 874px; height: 32px; left: 45px; top: 240px;" data-block-type="code" class="sl-block"><div style="z-index: 12;" class="sl-block-content"><pre><code>$ openstack overcloud deploy --templates</code></pre></div></div></section>
 			</div>
